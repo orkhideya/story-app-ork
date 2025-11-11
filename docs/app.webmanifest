@@ -1,0 +1,22 @@
+{
+  "name": "Story App",
+  "short_name": "Story",
+  "description": "Bagikan cerita dan momen spesialmu",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#22c55e",
+  "icons": [
+    {
+      "src": "images/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "favicon.png",
+      "sizes": "40x40",
+      "type": "image/png"
+    }
+  ]
+}
