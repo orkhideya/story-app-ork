@@ -87,7 +87,6 @@ class DetailStoryPage {
         );
       }
 
-      // Ensure focus management if coming from skip link
       const mainContent = document.getElementById("main-content");
       if (mainContent && window.location.hash.includes("#main-content")) {
         mainContent.focus();

@@ -12,11 +12,12 @@ class AddStoryPage {
   async render() {
     return `      
       <section class="add-story container">
-        <h1 id="main-content" class="add-story__title"><i class="fas fa-plus-circle"></i>Tambah Cerita</h1>
+        <h1 id="main-content" class="add-story__title">
+          <i class="fas fa-plus-circle"></i> Tambah Cerita
+        </h1>
         
         <form id="addStoryForm" class="add-story__form">
-          <div class="form-group">
-
+          <!-- Location Section -->
           <div class="form-group">
             <label>
               <i class="fas fa-map-marker-alt"></i> Lokasi <span class="required">*</span>
@@ -30,9 +31,11 @@ class AddStoryPage {
               Latitude: <span id="latitudeValue">-</span>, 
               Longitude: <span id="longitudeValue">-</span>
             </div>
-            <small id="locationStatus" class="form-help"></small>
+            <small id="locationStatus" class="form-help"></small> 
           </div>
 
+          <!-- Description Section -->
+          <div class="form-group">
             <label for="description">
               <i class="fas fa-pencil-alt"></i> Cerita Anda <span class="required">*</span>
             </label>
@@ -44,62 +47,102 @@ class AddStoryPage {
             ></textarea>
             <small id="descriptionStatus" class="form-help"></small>
           </div>
-
+          
+          <!-- Photo Upload Section -->
           <div class="form-group">
             <label>
               <i class="fas fa-camera"></i> Foto <span class="required">*</span>
             </label>
-            <div class="photo-input-container">
-              <div class="camera-container">
-                <video id="cameraPreview" class="camera-preview" autoplay playsinline style="display: none;"></video>
-                <canvas id="photoCanvas" class="photo-canvas" style="display: none;"></canvas>
+            
+            <div class="photo-upload-container">
+              <!-- Camera Section -->
+              <div class="upload-method">
+                <div class="method-header">
+                  <i class="fas fa-camera"></i>
+                  <span>Ambil Foto Langsung</span>
+                </div>
+                
+                <div class="camera-wrapper">
+                  <video id="cameraPreview" class="camera-preview" autoplay playsinline style="display: none;"></video>
+                  <canvas id="photoCanvas" class="photo-canvas" style="display: none;"></canvas>
+                </div>
+                
+                <div class="camera-controls">
+                  <button type="button" id="startCamera" class="btn-camera">
+                    <i class="fas fa-video"></i> Buka Kamera
+                  </button>
+                  <button type="button" id="capturePhoto" class="btn-camera btn-primary" style="display: none;">
+                    <i class="fas fa-camera"></i> Ambil Foto
+                  </button>
+                  <button type="button" id="closeCamera" class="btn-camera btn-secondary" style="display: none;">
+                    <i class="fas fa-times"></i> Tutup
+                  </button>
+                  <button type="button" id="retakePhoto" class="btn-camera btn-secondary" style="display: none;">
+                    <i class="fas fa-redo"></i> Ambil Ulang
+                  </button>
+                </div>
               </div>
-              
-              <div class="camera-buttons">
-                <button type="button" id="startCamera" class="camera-button">
-                  <i class="fas fa-camera"></i> Buka Kamera
-                </button>
-                <button type="button" id="closeCamera" class="camera-button camera-button--danger" style="display: none;">
-                  <i class="fas fa-times"></i> Tutup Kamera
-                </button>
-                <button type="button" id="capturePhoto" class="camera-button" style="display: none;">
-                  <i class="fas fa-camera"></i> Ambil Foto
-                </button>
-                <button type="button" id="retakePhoto" class="camera-button" style="display: none;">
-                  <i class="fas fa-redo"></i> Ambil Ulang
-                </button>
+
+              <!-- Divider -->
+              <div class="upload-divider">
+                <span>atau</span>
               </div>
-              
-              <div class="upload-divider">atau</div>
-              
-              <div class="upload-container">
-                <div class="file-input-wrapper">
-                  <label for="photo" class="upload-button">
-                    <i class="fas fa-upload"></i> Pilih File
-                  </label>
+
+              <!-- File Upload Section -->
+              <div class="upload-method">
+                <div class="method-header">
+                  <i class="fas fa-folder-open"></i>
+                  <span>Pilih dari File</span>
+                </div>
+                
+                <div class="file-upload-area">
                   <input 
                     type="file" 
                     id="photo" 
                     name="photo" 
                     accept="image/*" 
                     class="file-input"
+                    aria-label="Pilih file foto"
                   >
+                  <label for="photo" class="file-upload-label">
+                    <div class="upload-icon">
+                      <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <div class="upload-text">
+                      <strong>Klik untuk memilih foto</strong>
+                      <span>atau drag & drop di sini</span>
+                    </div>
+                  </label>
                 </div>
-                <p class="file-help">Format: JPG, PNG, GIF (max. 1MB)</p>
-                <small id="photoStatus" class="form-help"></small>
                 
-                <div id="imagePreview" class="image-preview" style="display: none;">
-                  <img id="previewImage" class="preview-image">
-                  <button type="button" id="removeImage" class="camera-button camera-button--danger">&times;</button>
-                </div>
+                <p class="file-requirements">
+                  <i class="fas fa-info-circle"></i> 
+                  Format: JPG, PNG, GIF • Maksimal 1MB
+                </p>
               </div>
+
+              <!-- Photo Preview -->
+              <div id="imagePreview" class="photo-preview-section" style="display: none;">
+                <div class="preview-header">
+                  <span><i class="fas fa-check-circle"></i> Foto berhasil dipilih</span>
+                  <button type="button" id="removeImage" class="btn-remove">
+                    <i class="fas fa-trash-alt"></i> Hapus
+                  </button>
+                </div>
+                <div class="preview-image-wrapper">
+                  <img id="previewImage" class="preview-image" alt="Preview foto">
+                </div>
+                <p class="preview-info" id="photoInfo"></p>
+              </div>
+
+              <!-- Status -->
+              <small id="photoStatus" class="form-help"></small>
             </div>
           </div>
           
           <button type="submit" class="submit-button">
             <i class="fas fa-paper-plane"></i> Tambah Cerita
           </button>
-
           <p class="required-note">
             <span class="required">*</span> Wajib diisi
           </p>
@@ -108,7 +151,17 @@ class AddStoryPage {
     `;
   }
 
+  //helper function for format file size
+  #formatFileSize(bytes) {
+    if (bytes === 0) return "0 Bytes";
+    const k = 1024;
+    const sizes = ["Bytes", "KB", "MB"];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + " " + sizes[i];
+  }
+
   async afterRender() {
+    // DOM Elements
     const form = document.getElementById("addStoryForm");
     const cameraPreview = document.getElementById("cameraPreview");
     const photoCanvas = document.getElementById("photoCanvas");
@@ -120,90 +173,69 @@ class AddStoryPage {
     const imagePreview = document.getElementById("imagePreview");
     const previewImage = document.getElementById("previewImage");
     const removeImageBtn = document.getElementById("removeImage");
+    const photoInfo = document.getElementById("photoInfo");
     const mapContainer = document.getElementById("map");
-
-    // Coordinate display elements
     const coordinateDisplay = document.getElementById("coordinateDisplay");
     const latitudeValue = document.getElementById("latitudeValue");
     const longitudeValue = document.getElementById("longitudeValue");
-
-    // Status elements
     const descriptionStatus = document.getElementById("descriptionStatus");
     const photoStatus = document.getElementById("photoStatus");
     const locationStatus = document.getElementById("locationStatus");
 
     let photoFile = null;
 
-    // Log DOM elements for debugging
-    console.log("DOM Elements:");
-    console.log("- form:", !!form);
-    console.log("- cameraPreview:", !!cameraPreview);
-    console.log("- photoCanvas:", !!photoCanvas);
-    console.log("- fileInput:", !!fileInput);
-    console.log("- mapContainer:", !!mapContainer);
-    console.log("- coordinateDisplay:", !!coordinateDisplay);
-
-    // Initialize map with interactive mode enabled
+    //initialize map
     this.#map = MapHelper.initMap(mapContainer, true);
 
-    // Update status indicators
+    //update status indicators
     const updateStatusIndicators = () => {
       const description = document.getElementById("description").value;
 
-      // Description status
+      //description status
       if (!description || description.trim().length === 0) {
         descriptionStatus.textContent = "Cerita belum diisi";
         descriptionStatus.className = "form-help text-warning";
       } else {
-        descriptionStatus.textContent = "✓ Cerita telah diisi";
+        descriptionStatus.textContent = "Cerita telah diisi";
         descriptionStatus.className = "form-help text-success";
       }
 
-      // Photo status
+      //photo status
       if (!photoFile) {
         photoStatus.textContent = "Foto belum dipilih";
         photoStatus.className = "form-help text-warning";
       } else {
-        photoStatus.textContent = "✓ Foto telah dipilih";
+        photoStatus.textContent = "Foto telah dipilih";
         photoStatus.className = "form-help text-success";
       }
 
-      // Location status
+      //location status
       if (!this.#presenter.getSelectedLocation()) {
         locationStatus.textContent = "Lokasi belum dipilih";
         locationStatus.className = "form-help text-warning";
       } else {
-        locationStatus.textContent = "✓ Lokasi telah dipilih";
+        locationStatus.textContent = "Lokasi telah dipilih";
         locationStatus.className = "form-help text-success";
       }
     };
 
-    // Initial status check
+    //initial status check
     updateStatusIndicators();
 
-    // Description input handler
+    //description input handler
     document
       .getElementById("description")
       .addEventListener("input", updateStatusIndicators);
 
-    // Camera handling
+    //camera handlers
     startCameraBtn.addEventListener("click", async () => {
       try {
-        console.log("Starting camera...");
         const stream = await this.#presenter.startCamera();
-        console.log("Camera stream obtained:", stream);
-
         if (!stream) {
           throw new Error("Tidak dapat mendapatkan akses kamera");
         }
-
         cameraPreview.srcObject = stream;
         await cameraPreview.play();
-
-        console.log("Camera preview dimensions:", {
-          width: cameraPreview.videoWidth,
-          height: cameraPreview.videoHeight,
-        });
 
         cameraPreview.style.display = "block";
         startCameraBtn.style.display = "none";
@@ -218,7 +250,6 @@ class AddStoryPage {
     });
 
     closeCameraBtn.addEventListener("click", async () => {
-      console.log("Closing camera...");
       await this.#presenter.stopCamera();
       cameraPreview.srcObject = null;
       cameraPreview.style.display = "none";
@@ -228,25 +259,14 @@ class AddStoryPage {
     });
 
     capturePhotoBtn.addEventListener("click", async () => {
-      console.log("Capturing photo...");
-
       try {
-        // Video stream validation
         if (!cameraPreview.srcObject || !cameraPreview.videoWidth) {
-          console.error("Video stream not ready");
           throw new Error("Kamera belum siap. Coba lagi.");
         }
 
-        // Set canvas dimensions to match video
         photoCanvas.width = cameraPreview.videoWidth;
         photoCanvas.height = cameraPreview.videoHeight;
 
-        console.log("Canvas dimensions set to:", {
-          width: photoCanvas.width,
-          height: photoCanvas.height,
-        });
-
-        // Draw video frame to canvas
         const context = photoCanvas.getContext("2d");
         context.drawImage(
           cameraPreview,
@@ -256,9 +276,6 @@ class AddStoryPage {
           photoCanvas.height
         );
 
-        console.log("Video frame drawn to canvas");
-
-        // Convert canvas to file using Promise for better error handling
         photoFile = await new Promise((resolve, reject) => {
           photoCanvas.toBlob(
             (blob) => {
@@ -266,40 +283,31 @@ class AddStoryPage {
                 reject(new Error("Gagal mengambil foto dari kamera"));
                 return;
               }
-
               const file = new File([blob], "camera-photo.jpg", {
                 type: "image/jpeg",
                 lastModified: Date.now(),
               });
-
-              console.log("Photo blob created:", {
-                size: blob.size,
-                type: blob.type,
-              });
-              console.log("Photo file created:", {
-                name: file.name,
-                size: file.size,
-                type: file.type,
-              });
-
               resolve(file);
             },
             "image/jpeg",
             0.9
-          ); // 90% quality
+          );
         });
 
-        // Validation of photo results
         if (!photoFile || photoFile.size === 0) {
           throw new Error("Gagal mengambil foto dari kamera");
         }
 
-        // File size validation
         this.#presenter.validateImage(photoFile);
 
         // Show preview
         previewImage.src = URL.createObjectURL(photoFile);
-        imagePreview.style.display = "inline-block";
+        imagePreview.style.display = "block";
+
+        // Show file info
+        photoInfo.textContent = `camera-photo.jpg • ${this.#formatFileSize(
+          photoFile.size
+        )}`;
 
         // Update UI
         cameraPreview.style.display = "none";
@@ -308,13 +316,8 @@ class AddStoryPage {
         closeCameraBtn.style.display = "none";
         retakePhotoBtn.style.display = "block";
 
-        // Stop the camera since we have our photo
         await this.#presenter.stopCamera();
-
-        // Update status
         updateStatusIndicators();
-
-        console.log("Photo capture completed successfully");
       } catch (error) {
         console.error("Error capturing photo:", error);
         alert(`Gagal mengambil foto: ${error.message}`);
@@ -323,13 +326,10 @@ class AddStoryPage {
 
     retakePhotoBtn.addEventListener("click", async () => {
       try {
-        console.log("Retaking photo...");
-        // Start camera again for retaking photo
         const stream = await this.#presenter.startCamera();
         cameraPreview.srcObject = stream;
         await cameraPreview.play();
 
-        // Reset UI for new capture
         cameraPreview.style.display = "block";
         photoCanvas.style.display = "none";
         capturePhotoBtn.style.display = "block";
@@ -338,7 +338,6 @@ class AddStoryPage {
         imagePreview.style.display = "none";
         photoFile = null;
 
-        // Update status
         updateStatusIndicators();
       } catch (error) {
         console.error("Failed to restart camera:", error);
@@ -348,30 +347,25 @@ class AddStoryPage {
       }
     });
 
-    // File upload handling
+    //file upload handler
     fileInput.addEventListener("change", async (e) => {
-      console.log("File input changed");
       const file = e.target.files[0];
-      if (!file) {
-        console.log("No file selected");
-        return;
-      }
+      if (!file) return;
 
       try {
-        console.log("Selected file:", {
-          name: file.name,
-          size: file.size,
-          type: file.type,
-        });
-
-        // File validation
         this.#presenter.validateImage(file);
-
         photoFile = file;
-        previewImage.src = URL.createObjectURL(file);
-        imagePreview.style.display = "inline-block";
 
-        // Stop camera if it's running
+        //show preview
+        previewImage.src = URL.createObjectURL(file);
+        imagePreview.style.display = "block";
+
+        //show file info
+        photoInfo.textContent = `${file.name} • ${this.#formatFileSize(
+          file.size
+        )}`;
+
+        //stop camera if running
         await this.#presenter.stopCamera();
         cameraPreview.style.display = "none";
         photoCanvas.style.display = "none";
@@ -380,48 +374,35 @@ class AddStoryPage {
         closeCameraBtn.style.display = "none";
         retakePhotoBtn.style.display = "none";
 
-        // Update status
         updateStatusIndicators();
-
-        console.log("File selected successfully");
       } catch (error) {
-        console.error("File validation error:", error);
         alert(error.message);
         fileInput.value = "";
       }
     });
 
+    //remove image handler
     removeImageBtn.addEventListener("click", () => {
-      console.log("Removing image...");
-
       photoFile = null;
       fileInput.value = "";
       imagePreview.style.display = "none";
       updateStatusIndicators();
-
-      console.log("Image removed");
     });
 
-    // Map location selection handler
+    //map location selection handler
     mapContainer.addEventListener("locationselected", (e) => {
-      console.log("Location selected:", e.detail);
-
-      // Display coordinates when location is selected
       const { lat, lng } = e.detail;
       latitudeValue.textContent = lat.toFixed(6);
       longitudeValue.textContent = lng.toFixed(6);
       coordinateDisplay.style.display = "block";
-
       this.#presenter.setSelectedLocation(e.detail);
       updateStatusIndicators();
     });
 
-    // Form submission
+    //form submission
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      console.log("Form submitted");
 
-      // Disable form elements during submission
       const submitButton = form.querySelector('button[type="submit"]');
       submitButton.disabled = true;
       submitButton.innerHTML =
@@ -429,26 +410,11 @@ class AddStoryPage {
 
       try {
         const description = document.getElementById("description").value;
-
-        console.log("Submitting story:");
-        console.log("- description:", description);
-        console.log(
-          "- photo:",
-          photoFile
-            ? {
-                name: photoFile.name,
-                size: photoFile.size,
-                type: photoFile.type,
-              }
-            : "null"
-        );
-
         await this.#presenter.addStory(description, photoFile);
       } catch (error) {
         console.error("Form submission error:", error);
         alert(`Gagal mengirim cerita: ${error.message}`);
       } finally {
-        // Re-enable form elements
         submitButton.disabled = false;
         submitButton.innerHTML =
           '<i class="fas fa-paper-plane"></i> Tambah Cerita';
@@ -457,18 +423,11 @@ class AddStoryPage {
   }
 
   async destroy() {
-    console.log("Destroying AddStoryPage component");
-
-    // Clean up map
     if (this.#map) {
       this.#map.remove();
       this.#map = null;
     }
-
-    // Ensure camera is stopped when navigating away
     await this.#presenter.stopCamera();
-
-    console.log("AddStoryPage destroyed");
   }
 }
 

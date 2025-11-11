@@ -16,28 +16,27 @@ class Navbar {
       await PushNotification.isPushNotificationSupported();
 
     navList.innerHTML = `
-      <ul class="nav-list">
+    <ul class="nav-list">
+    ${
+      isLoggedIn
+        ? `
+      <li><a href="#/" class="nav-link"><span>Home</span></a></li>
+      <li><a href="#/stories" class="nav-link"><span>Stories</span></a></li>
+      <li><a href="#/stories/add" class="nav-link"><span>Add Story</span></a></li>
       ${
-        isLoggedIn
-          ? `
-        <li><a href="#/stories"><i class="fas fa-book"></i> Cerita</a></li>
-        <li><a href="#/stories/add"><i class="fas fa-plus"></i> Tambah Cerita</a></li>
-        <li><a href="#/about"><i class="fas fa-info-circle"></i> Tentang</a></li>
-        ${
-          isPushSupported
-            ? `<li><a href="#" id="notificationButton" disabled><i class="fas fa-bell"></i> Notifikasi</a></li>`
-            : ""
-        }
-        <li><a href="#" id="logoutButton"><i class="fas fa-sign-out-alt"></i> Keluar</a></li>
-      `
-          : `
-        <li><a href="#/login"><i class="fas fa-sign-in-alt"></i> Login</a></li>
-        <li><a href="#/register"><i class="fas fa-user-plus"></i> Register</a></li>
-        <li><a href="#/about"><i class="fas fa-info-circle"></i> Tentang</a></li>
-      `
+        isPushSupported
+          ? `<li><button type="button" id="notificationButton"><span>Notification</span></button></li>`
+          : ""
       }
-      </ul>
-    `;
+      <li><button type="button" id="logoutButton"><span>Sign Out</span></button></li>
+    `
+        : `
+      <li><a href="#/login" class="nav-link"><span>Login</span></a></li>
+      <li><a href="#/register" class="nav-link"><span>Register</span></a></li>
+    `
+    }
+    </ul>
+  `;
 
     if (isLoggedIn) {
       const logoutButton = document.getElementById("logoutButton");
@@ -51,18 +50,22 @@ class Navbar {
       if (isPushSupported) {
         const notificationButton =
           document.getElementById("notificationButton");
-
+        
         // Update button UI based on subscription status
         await PushNotification.updateSubscriptionButton(notificationButton);
-
+        
         // Add event listener for notification button
         notificationButton.addEventListener("click", async (e) => {
           e.preventDefault();
-          notificationButton.disabled = true;
+          
+          // Add loading state
+          const originalHTML = notificationButton.innerHTML;
+          notificationButton.style.pointerEvents = "none";
+          notificationButton.style.opacity = "0.6";
 
           try {
             const isSubscribed = await PushNotification.isSubscribed();
-
+            
             if (isSubscribed) {
               // If already subscribed, unsubscribe
               await PushNotification.unsubscribe();
@@ -72,14 +75,16 @@ class Navbar {
               await PushNotification.subscribe();
               this._showToast("Notifikasi telah diaktifkan");
             }
-
+            
             // Update button UI after subscription change
             await PushNotification.updateSubscriptionButton(notificationButton);
           } catch (error) {
             console.error("Notification subscription error:", error);
             this._showToast(`Error: ${error.message}`);
+            notificationButton.innerHTML = originalHTML;
           } finally {
-            notificationButton.disabled = false;
+            notificationButton.style.pointerEvents = "";
+            notificationButton.style.opacity = "";
           }
         });
       }
@@ -87,13 +92,11 @@ class Navbar {
   }
 
   static _showToast(message) {
-    // Simple toast notification (you might want to replace this with your app's toast system)
     const toast = document.createElement("div");
     toast.className = "toast";
-    toast.textContent = message;
+    toast.innerHTML = `<i class="fas fa-info-circle"></i> <span>${message}</span>`;
     document.body.appendChild(toast);
-
-    // Remove toast after 3 seconds
+    
     setTimeout(() => {
       toast.classList.add("show");
       setTimeout(() => {

@@ -12,7 +12,6 @@ class AddStoryPresenter {
 
   async addStory(description, photo) {
     try {
-      // Log data untuk debugging
       console.log("AddStoryPresenter.addStory - description:", description);
       console.log("AddStoryPresenter.addStory - photo:", photo);
       console.log(
@@ -20,7 +19,6 @@ class AddStoryPresenter {
         this.#selectedLocation
       );
 
-      // Validate all required fields
       if (!this._validateAllFields(description, photo)) {
         return;
       }
@@ -30,7 +28,6 @@ class AddStoryPresenter {
         throw new Error("Token not found");
       }
 
-      // Validasi photo secara eksplisit
       if (!(photo instanceof File)) {
         console.error("Photo is not a File object:", photo);
         throw new Error("Format foto tidak valid");
@@ -46,7 +43,6 @@ class AddStoryPresenter {
         data.lon = this.#selectedLocation.lng;
       }
 
-      // Log data yang akan dikirim untuk debugging
       console.log("Sending story data to API:", {
         description: data.description,
         photoName: data.photo.name,
@@ -124,9 +120,8 @@ class AddStoryPresenter {
     try {
       console.log("Starting camera...");
 
-      // Stop any existing stream first
+      //stop any existing stream first
       await this.stopCamera();
-
       this.#stream = await navigator.mediaDevices.getUserMedia({
         video: true,
         audio: false,
@@ -144,7 +139,7 @@ class AddStoryPresenter {
     if (this.#stream) {
       console.log("Stopping camera...");
 
-      // Stop all tracks in the stream
+      //stop all tracks in the stream
       const tracks = this.#stream.getTracks();
       tracks.forEach((track) => {
         track.stop();
@@ -160,17 +155,17 @@ class AddStoryPresenter {
   validateImage(file) {
     console.log("Validating image:", file);
 
-    // Check if it's a file
+    //check if it is a file
     if (!(file instanceof File)) {
       throw new Error("File tidak valid");
     }
 
-    // Check file type
+    //check file type
     if (!file.type.startsWith("image/")) {
       throw new Error("File harus berupa gambar");
     }
 
-    // Check file size (max 1MB)
+    //max 1MB file upload
     if (file.size > 1024 * 1024) {
       throw new Error("Ukuran file tidak boleh lebih dari 1MB");
     }

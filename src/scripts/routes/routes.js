@@ -1,5 +1,4 @@
 import HomePage from "../pages/home/home-page";
-import AboutPage from "../pages/about/about-page";
 import StoriesPage from "../pages/stories/stories-page";
 import AddStoryPage from "../pages/stories/add-story-page";
 import DetailStoryPage from "../pages/stories/detail-story-page";
@@ -8,7 +7,6 @@ import RegisterPage from "../pages/auth/register/register-page";
 
 const routes = {
   "/": new HomePage(),
-  "/about": new AboutPage(),
   "/stories": new StoriesPage(),
   "/stories/add": new AddStoryPage(),
   "/stories/:id": new DetailStoryPage(),

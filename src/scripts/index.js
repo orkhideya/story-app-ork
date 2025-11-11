@@ -1,6 +1,5 @@
 // CSS imports
 import "../styles/styles.css";
-
 import App from "./pages/app";
 import Navbar from "./components/navbar";
 import SkipToContentInitiator from "./utils/skip-to-content-initiator";
@@ -9,7 +8,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Initialize Skip to Content feature
   SkipToContentInitiator.init({
     skipLinkId: "skip-to-content",
-    mainContentId: "main-content", // Using your existing main-content ID
+    mainContentId: "main-content",
   });
 
   const app = new App({
@@ -32,7 +31,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 const registerServiceWorker = async () => {
   if ("serviceWorker" in navigator) {
     try {
-      const registration = await navigator.serviceWorker.register("/sw.js", {
+      const registration = await navigator.serviceWorker.register("/sw.bundle.js", {
         scope: "/",
       });
 
@@ -42,6 +41,7 @@ const registerServiceWorker = async () => {
       console.error("Service Worker registration failed:", error);
       return null;
     }
+
   }
   return null;
 };
