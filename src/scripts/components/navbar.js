@@ -1,5 +1,6 @@
 import auth from "../utils/middleware";
 import PushNotification from "../utils/push-notification";
+import IDBHelper from "../utils/idb-helper";
 
 class Navbar {
   static init() {
@@ -15,6 +16,12 @@ class Navbar {
     const isPushSupported =
       await PushNotification.isPushNotificationSupported();
 
+    // Get favorite count for badge
+    const favoriteCount = isLoggedIn ? await IDBHelper.getFavoriteCount() : 0;
+    const favoriteBadge = favoriteCount > 0 
+      ? `<span class="nav-badge">${favoriteCount}</span>` 
+      : '';
+
     navList.innerHTML = `
     <ul class="nav-list">
     ${
@@ -23,6 +30,11 @@ class Navbar {
       <li><a href="#/" class="nav-link"><span>Home</span></a></li>
       <li><a href="#/stories" class="nav-link"><span>Stories</span></a></li>
       <li><a href="#/stories/add" class="nav-link"><span>Add Story</span></a></li>
+      <li>
+        <a href="#/favorites" class="nav-link">
+          <span>Favorites ${favoriteBadge}</span>
+        </a>
+      </li>
       ${
         isPushSupported
           ? `<li><button type="button" id="notificationButton"><span>Notification</span></button></li>`

@@ -1,9 +1,9 @@
-/* src/scripts/sw.js - Service Worker Source */
 import { precacheAndRoute } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { CacheableResponsePlugin } from 'workbox-cacheable-response';
 import { NetworkFirst, CacheFirst, StaleWhileRevalidate } from 'workbox-strategies';
 
+// Do precaching
 const manifest = self.__WB_MANIFEST;
 precacheAndRoute(manifest);
 
@@ -23,7 +23,8 @@ self.addEventListener('activate', (event) => {
 
 // Cache Google Fonts
 registerRoute(
-  ({ url }) => url.origin === 'https://fonts.googleapis.com' || url.origin === 'https://fonts.gstatic.com',
+  ({ url }) => url.origin === 'https://fonts.googleapis.com' || 
+               url.origin === 'https://fonts.gstatic.com',
   new CacheFirst({
     cacheName: 'google-fonts',
     plugins: [
@@ -32,9 +33,13 @@ registerRoute(
   })
 );
 
-// Cache FontAwesome
+// Cache FontAwesome (DIPERBAIKI)
 registerRoute(
-  ({ url }) => url.origin === 'https://cdnjs.cloudflare.com' || url.origin.includes('fontawesome'),
+  ({ url }) => 
+    url.origin === 'https://cdnjs.cloudflare.com' || 
+    url.origin === 'https://kit.fontawesome.com' ||
+    url.origin === 'https://ka-f.fontawesome.com' ||
+    url.origin.includes('fontawesome'),
   new CacheFirst({
     cacheName: 'fontawesome',
     plugins: [
@@ -107,8 +112,8 @@ self.addEventListener('push', (event) => {
     title: 'Story App',
     options: {
       body: 'You have a new notification',
-      icon: '/icons/icon-192x192.png',
-      badge: '/icons/badge-72x72.png',
+      icon: '/images/logo.png',
+      badge: '/favicon.png',
     },
     data: {},
   };

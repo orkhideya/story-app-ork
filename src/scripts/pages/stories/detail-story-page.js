@@ -1,10 +1,13 @@
 import DetailStoryPresenter from "./detail-story-presenter";
 import { showFormattedDate } from "../../utils";
+import IDBHelper from "../../utils/idb-helper";
+import Swal from "sweetalert2";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 class DetailStoryPage {
   #presenter = null;
+  #currentStory = null;
   #defaultIcon = L.icon({
     iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
     shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
@@ -39,11 +42,22 @@ class DetailStoryPage {
 
     try {
       const story = await this.#presenter.getStoryDetail(storyId);
+      this.#currentStory = story;
+
+      const isFavorite = await IDBHelper.isFavorite(storyId);
+      const favoriteClass = isFavorite ? "active" : "";
+      const favoriteIcon = isFavorite ? "fas fa-heart" : "far fa-heart";
+      const favoriteText = isFavorite ? "Hapus dari Favorit" : "Tambahkan ke Favorit";
 
       contentContainer.innerHTML = `
-        <h1 id="main-content" class="detail-story__title" tabindex="-1">${
-          story.name
-        }</h1>
+        <div class="detail-story__header">
+          <h1 id="main-content" class="detail-story__title" tabindex="-1">${
+            story.name
+          }</h1>
+          <button id="favoriteBtn" class="detail-favorite-btn ${favoriteClass}" title="${favoriteText}">
+            <i class="${favoriteIcon}"></i> ${favoriteText}
+          </button>
+        </div>
         <p class="detail-story__date">${showFormattedDate(story.createdAt)}</p>
        
         <img
@@ -75,6 +89,12 @@ class DetailStoryPage {
         }
       `;
 
+      // Setup favorite button
+      const favoriteBtn = document.getElementById("favoriteBtn");
+      favoriteBtn.addEventListener("click", async () => {
+        await this._toggleFavorite(storyId, story);
+      });
+
       if (story.lat && story.lon) {
         const mapContainer = document.getElementById("map");
         this.#presenter.initMap(mapContainer);
@@ -97,6 +117,48 @@ class DetailStoryPage {
           Gagal memuat cerita. ${error.message}
         </div>
       `;
+    }
+  }
+
+  async _toggleFavorite(storyId, story) {
+    const favoriteBtn = document.getElementById("favoriteBtn");
+    const isFavorite = await IDBHelper.isFavorite(storyId);
+
+    try {
+      if (isFavorite) {
+        await IDBHelper.deleteFavoriteStory(storyId);
+        favoriteBtn.innerHTML = '<i class="far fa-heart"></i> Tambahkan ke Favorit';
+        favoriteBtn.classList.remove("active");
+        favoriteBtn.title = "Tambahkan ke favorit";
+
+        await Swal.fire({
+          icon: "success",
+          title: "Dihapus dari Favorit",
+          text: "Cerita telah dihapus dari favorit",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      } else {
+        await IDBHelper.addFavoriteStory(story);
+        favoriteBtn.innerHTML = '<i class="fas fa-heart"></i> Hapus dari Favorit';
+        favoriteBtn.classList.add("active");
+        favoriteBtn.title = "Hapus dari favorit";
+
+        await Swal.fire({
+          icon: "success",
+          title: "Ditambahkan ke Favorit",
+          text: "Cerita berhasil disimpan ke favorit",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      }
+    } catch (error) {
+      console.error("Error toggling favorite:", error);
+      await Swal.fire({
+        icon: "error",
+        title: "Gagal",
+        text: error.message,
+      });
     }
   }
 

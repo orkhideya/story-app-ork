@@ -1,0 +1,395 @@
+/* ===== FAVORITES FUNCTIONALITY STYLING ===== */
+
+/* Favorite Button on Story Cards */
+.favorite-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4em;
+  color: var(--text-medium);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+}
+
+.favorite-btn:hover {
+  transform: scale(1.1);
+  background: var(--white);
+  color: var(--danger);
+  border-color: var(--danger);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.favorite-btn.active {
+  color: var(--danger);
+  background: var(--white);
+  border-color: var(--danger);
+  animation: heartBeat 0.4s ease;
+}
+
+.favorite-btn:active {
+  transform: scale(0.95);
+}
+
+.favorite-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+}
+
+@keyframes heartBeat {
+  0%, 100% { 
+    transform: scale(1); 
+  }
+  25% { 
+    transform: scale(1.3); 
+  }
+  50% { 
+    transform: scale(1.1); 
+  }
+}
+
+/* Detail Page Favorite Section */
+.detail-story__header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 20px;
+  align-items: start;
+  margin-bottom: 16px;
+}
+
+.detail-story__title-wrapper {
+  min-width: 0;
+}
+
+.detail-favorite-btn {
+  background: var(--primary-dark);
+  color: var(--text-light);
+  border: 2px solid transparent;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(59, 89, 152, 0.3);
+  white-space: nowrap;
+  font-family: inherit;
+}
+
+.detail-favorite-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 89, 152, 0.4);
+  background: #2d4373;
+}
+
+.detail-favorite-btn:active {
+  transform: translateY(0);
+}
+
+.detail-favorite-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 89, 152, 0.3);
+}
+
+.detail-favorite-btn.active {
+  background: var(--danger);
+  border-color: var(--danger);
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.detail-favorite-btn.active:hover {
+  background: #dc2626;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+.detail-favorite-btn i {
+  font-size: 1.2em;
+  transition: transform 0.3s ease;
+}
+
+.detail-favorite-btn:hover i {
+  transform: scale(1.1);
+}
+
+/* Favorites Page Info Banner */
+.favorites-info {
+  background: var(--primary-dark);
+  color: var(--text-light);
+  padding: 16px 20px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.favorites-info i {
+  font-size: 1.5em;
+  flex-shrink: 0;
+  color: var(--text-light);
+}
+
+.favorites-info span {
+  flex: 1;
+  font-weight: 500;
+}
+
+/* Favorite Badge on Story Cards */
+.story-item__favorite-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: var(--danger);
+  color: var(--text-light);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85em;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+  z-index: 10;
+  animation: fadeInDown 0.4s ease;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Story Actions Container */
+.story-item__actions {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  margin-top: 16px;
+  align-items: center;
+}
+
+.story-item__actions .read-more-button {
+  margin-top: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Favorite Delete Button */
+.favorite-delete-btn {
+  background: var(--danger);
+  color: var(--text-light);
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95em;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+.favorite-delete-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+  background: #dc2626;
+}
+
+.favorite-delete-btn:active {
+  transform: translateY(0);
+}
+
+.favorite-delete-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+}
+
+/* Navigation Badge */
+.nav-badge {
+  background: var(--danger);
+  color: var(--text-light);
+  font-size: 0.7em;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 10px;
+  margin-left: 6px;
+  display: inline-block;
+  min-width: 18px;
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* Empty State for Favorites */
+.favorites-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  text-align: center;
+  background: var(--background-light);
+  border-radius: 12px;
+  margin: 30px 0;
+  border: 2px dashed var(--primary-light);
+}
+
+.favorites-empty-state i {
+  font-size: 5em;
+  color: var(--primary-medium);
+  margin-bottom: 24px;
+  opacity: 0.7;
+}
+
+.favorites-empty-state h2 {
+  font-size: 1.8em;
+  color: var(--text-dark);
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.favorites-empty-state p {
+  font-size: 1.1em;
+  color: var(--text-medium);
+  margin-bottom: 32px;
+  max-width: 500px;
+  line-height: 1.6;
+}
+
+.favorites-empty-state .cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Ensure story items have position relative */
+.story-item {
+  position: relative;
+}
+
+/* Responsive Adjustments for Favorites */
+@media screen and (max-width: 768px) {
+  .detail-story__header {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .detail-favorite-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .story-item__actions {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  
+  .favorite-delete-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .favorites-empty-state {
+    padding: 60px 20px;
+  }
+  
+  .favorites-empty-state i {
+    font-size: 3.5em;
+  }
+  
+  .favorites-empty-state h2 {
+    font-size: 1.5em;
+  }
+  
+  .favorites-empty-state p {
+    font-size: 1em;
+  }
+  
+  .favorite-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2em;
+  }
+  
+  .story-item__favorite-badge {
+    font-size: 0.8em;
+    padding: 5px 12px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .favorites-info {
+    flex-direction: column;
+    text-align: center;
+    padding: 14px 16px;
+  }
+  
+  .detail-story__header {
+    gap: 12px;
+  }
+  
+  .story-item__actions {
+    gap: 8px;
+  }
+}
+
+/* Reduced motion support for favorites */
+@media (prefers-reduced-motion: reduce) {
+  .favorite-btn,
+  .detail-favorite-btn,
+  .favorite-delete-btn,
+  .story-item__favorite-badge {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* High contrast mode for favorites */
+@media (prefers-contrast: high) {
+  .favorite-btn,
+  .detail-favorite-btn,
+  .favorite-delete-btn {
+    border: 2px solid currentColor;
+  }
+  
+  .favorites-info {
+    border: 2px solid currentColor;
+  }
+}
+
+/* Print styles */
+@media print {
+  .favorite-btn,
+  .detail-favorite-btn,
+  .favorite-delete-btn,
+  .story-item__favorite-badge,
+  .favorites-info {
+    display: none !important;
+  }
+  
+  .detail-story__header {
+    grid-template-columns: 1fr;
+  }
+}

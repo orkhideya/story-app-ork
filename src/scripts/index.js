@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Initialize navigation
   Navbar.init();
-
   await app.renderPage();
 
   window.addEventListener("hashchange", async () => {
@@ -27,21 +26,19 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 });
 
-// Register service worker for push notifications
+// Register service worker HANYA di production
 const registerServiceWorker = async () => {
-  if ("serviceWorker" in navigator) {
+  if ("serviceWorker" in navigator && process.env.NODE_ENV === "production") {
     try {
       const registration = await navigator.serviceWorker.register("/sw.bundle.js", {
         scope: "/",
       });
-
       console.log("Service Worker registered with scope:", registration.scope);
       return registration;
     } catch (error) {
       console.error("Service Worker registration failed:", error);
       return null;
     }
-
   }
   return null;
 };

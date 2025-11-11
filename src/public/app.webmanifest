@@ -1,19 +1,22 @@
 {
-  "id": "/#/",
-  "start_url": "/#/",
-  "scope": "/",
   "name": "Story App",
   "short_name": "Story",
-  "description": "Aplikasi berbagi cerita seputar Dicoding. Bagikan pengalaman belajar, proyek, dan pencapaian Anda dengan komunitas Dicoding.",
+  "description": "Bagikan cerita dan momen spesialmu",
+  "start_url": "/index.html",
   "display": "standalone",
-  "background_color": "#FFFFFF",
-  "theme_color": "#6366f1",
+  "background_color": "#ffffff",
+  "theme_color": "#22c55e",
   "icons": [
     {
-      "src": "/favicon.png",
+      "src": "images/logo.png",
+      "sizes": "512x512",
       "type": "image/png",
-      "sizes": "192x192",
       "purpose": "any maskable"
+    },
+    {
+      "src": "favicon.png",
+      "sizes": "40x40",
+      "type": "image/png"
     }
   ]
 }

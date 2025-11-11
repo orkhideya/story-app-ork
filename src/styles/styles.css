@@ -1,3 +1,4 @@
+@import './favorites-styles.css';
 /* color variables */
 :root {
   --primary-dark: #3b5998;
@@ -12,6 +13,7 @@
   --success: #22c55e;
   --danger: #ef4444;
   --warning: #f59e0b;
+  
 }
 
 /* skip to content */
